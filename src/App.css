@@ -1,0 +1,247 @@
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: 'Encode Sans', sans-serif;
+}
+
+/* Remove default padding */
+ul[class],
+ol[class] {
+  padding: 0;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* Remove list styles on ul, ol elements with a class attribute */
+ul[class],
+ol[class] {
+  list-style: none;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Natural flow and rhythm in articles by default */
+article > * + * {
+  margin-top: 1em;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Get rid of Chrome autofill form changes */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid var(--darkBlue);
+  -webkit-text-fill-color: var(--gray);
+  -webkit-box-shadow: 0 0 0px 30px var(--darkBlue) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Remove all animations and transitions for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* ^----------- RESET */
+
+/* 
+  TABLE OF CONTENTS
+
+    1. Root & Blocks
+    2. Text
+    3. Images
+    4. Input (forms / buttons / links)
+
+*/
+/************* 
+* 1. Blocks  *
+*************/
+:root {
+  --background: #11101e;
+  --darkBlue: #1d1d35;
+  --purple: #6b2368;
+  --gray: #696998;
+  --white: #fff;
+}
+
+#root {
+  background-color: var(--background);
+  height: 100%;
+  width: 100%;
+}
+
+/* search form */
+.form {
+  display: grid;
+}
+
+/* .card-list {
+  box-sizing: border-box;
+  display: flex; */
+  /* height: 375px; */
+  /* margin: 0 0 2rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0 1rem;
+} */
+/* 
+.movie-holder {
+  background-color: var(--background); */
+  /* margin: 0 0 2rem 0; */
+  /* padding: 0 1rem; */
+/* } */
+
+.card-list:last-child {
+  padding-bottom: 50px;
+}
+
+.swiper-container {
+  /* margin: 0 0 0 0; */
+  padding: 0 1rem;
+}
+
+.swiper-slide {
+  margin: 0 1rem 0 0;
+  padding: 0;
+  width: 200px;
+}
+
+.card {
+  height: 100%;
+  margin-right: 1rem;
+  width: 100%;
+}
+
+.card + .card {
+  margin: 0 1rem 0 auto;
+}
+
+.card:last-child {
+  padding-right: 1rem;
+}
+
+.card--content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/************* 
+*  2. Text   *
+*************/
+.category-title {
+  color: var(--white);
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  margin: 0 0 0 1rem;
+  /* text-transform: uppercase; */
+}
+
+.card--title {
+  color: var(--white);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.card--rating {
+  color: var(--gray);
+  font-size: 0.75rem;
+}
+
+
+/************* 
+* 3. Images  *
+*************/
+.form svg {
+  position: absolute;
+  top: 1rem;
+  left: 5%;
+  stroke: var(--gray);
+  width: 22px;
+  z-index: 1;
+}
+
+.card--image {
+  border: none;
+  border-radius: 5px;
+  height: 300px;
+  width: 200px;
+  min-width: 200px;
+}
+
+/*************
+*  4. Input  *
+*************/
+.search-input, .search-input:-internal-autofill-selected {
+  background-color: var(--darkBlue) !important;
+  border: none;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  margin: 1rem auto;
+  padding: 10px 10px 10px 42px;
+  position: relative;
+  width: 95%;
+}
+
+
+
+
+
+
+
+
+
+
