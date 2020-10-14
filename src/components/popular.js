@@ -5,7 +5,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import MovieCard from '../components/movieCard';
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y, Mousewheel]);
-const API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
 
 class Popular extends React.Component {
     constructor(props) {
@@ -15,15 +14,15 @@ class Popular extends React.Component {
         };
     }
     componentDidMount() {
-        const url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+        const url = `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US&page=1`;
 
         try {
             fetch(url)
-                .then(response => response.json())
-                .then(data => this.setState({ movies: data.results }));
-        } catch (err) {
+              .then((response) => response.json())
+              .then((data) => this.setState({ movies: data.results }));
+          } catch (err) {
             console.error(err);
-        }
+          }
     }
 
     render () {
@@ -31,21 +30,21 @@ class Popular extends React.Component {
         return (
             <>
                 <h2 className="category-title">Popular</h2>
-                <Swiper 
-                    spaceBetween={0}
-                    navigation
-                    mousewheel={true}
-                >    
-                    {movies.filter(movie => movie.poster_path).map(movie => (
-                        <SwiperSlide 
-                            key={movie.id}
-                        >
-                            <MovieCard 
-                                movie={movie}
-                            />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
+                {movies.length > 0 ?   
+                        <Swiper loop={true} slidesPerView={'auto'}>
+                            {movies
+                                .filter((movie) => movie.poster_path)
+                                .map((movie) => (
+                                <SwiperSlide 
+                                    key={movie.id}>
+                                    <MovieCard movie={movie}/>
+                                    {/* {movie.title} */}
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    :
+                        <h2></h2>
+                }
             </>
         )
     }

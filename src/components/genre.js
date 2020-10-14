@@ -3,8 +3,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import MovieCard from '../components/movieCard';
 
-const API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
-
 class Genre extends React.Component {
     constructor(props) {
         super(props);
@@ -18,7 +16,7 @@ class Genre extends React.Component {
     componentDidMount() {
         const genreNum = this.state.genre;
 
-        const url = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genreNum}`;
+        const url = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genreNum}`;
 
         try {
             fetch(url)
@@ -91,18 +89,20 @@ class Genre extends React.Component {
         return (
             <>
                 <h2 className="category-title">{genreCat}</h2>
-                <Swiper 
-                    spaceBetween={0}
-                    slidesPerView={1}
-                >    
-                    {movies
-                        .filter((movie) => movie.poster_path)
-                        .map((movie) => (
-                            <SwiperSlide key={movie.id}>
-                                <MovieCard movie={movie}/>
-                            </SwiperSlide>
-                    ))}
-                </Swiper>
+                {movies.length > 0 ?   
+                        <Swiper loop={true} slidesPerView={'auto'}>
+                            {movies
+                                .filter((movie) => movie.poster_path)
+                                .map((movie) => (
+                                <SwiperSlide 
+                                    key={movie.id}>
+                                    <MovieCard movie={movie}/>
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    :
+                        <h2></h2>
+                }
             </>
         );
     }

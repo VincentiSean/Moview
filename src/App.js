@@ -1,28 +1,27 @@
 import React from 'react';
-import './App.css';
-import Search from './components/search';
-import Popular from './components/popular';
-import Genre from './components/genre';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch
+} from 'react-router-dom';
+import './App.scss';
+
+import Home from './components/home';
+import MovieDetails from './components/movieDetails';
+import GenrePage from './components/genrePage';
 
 function App() {
   return (
-    <div className="App">
-      <Search />
-      <Popular />
-      <Genre genre="28" />
-      <Genre genre="35" />
-      <Genre genre="18" />
-      <Genre genre="27" />
-      <Genre genre="16" />
-      <Genre genre="10749" />
-      <Genre genre="878" />
-      <Genre genre="12" />
-      <Genre genre="53" />
-      <Genre genre="14" />
-      <Genre genre="80" />
-      <Genre genre="9648" />
-      <Genre genre="99" />
-    </div>
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route exact path="/" component={Home}></Route>
+          <Route exact path="/:movie" component={MovieDetails}></Route>
+          <Route exact path="/genre/:genre" component={GenrePage}></Route>
+        </Switch>
+      </div>
+    </Router>
+    
   );
 }
 
