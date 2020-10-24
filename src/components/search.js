@@ -52,7 +52,7 @@ export default function Search() {
                             ))}
                         </Swiper>
                     :
-                        <h2></h2>
+                        <></>
                 }
         </>
     )

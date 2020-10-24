@@ -2,6 +2,8 @@ import React from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import MovieGenre from '../components/movieGenreBtn';
+import MovieCard from '../components/movieCard';
+import HomeBtn from '../components/homeBtn';
 
 class MovieDetails extends React.Component {
     constructor(props) {
@@ -17,6 +19,8 @@ class MovieDetails extends React.Component {
             height: 'auto',
             active_id: '',
             runtime: '',
+            similarMovies: [],
+            backdropURL: '',
         }
     }
 
@@ -25,11 +29,13 @@ class MovieDetails extends React.Component {
         this.fetchMovie(movieId);
         this.fetchCrew(movieId);
         this.fetchReviews(movieId);
+        this.fetchSimilar(movieId);
+        
+        window.scrollTo(0, 0);
     }
 
     fetchMovie(movieId) {
-        const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US;
-        `;
+        const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US;`;
 
         try {
             fetch(url)
@@ -70,6 +76,17 @@ class MovieDetails extends React.Component {
         }
     }
 
+    fetchSimilar(movieId) {
+        const url = `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US&page=1`;
+        try {
+            fetch(url)
+              .then((response) => response.json())
+              .then((data) => this.setState({ similarMovies: data.results }));
+        } catch (err) {
+            console.error(err);
+        }   
+    }
+
     getDirector() {
         let director = [];
         
@@ -101,7 +118,6 @@ class MovieDetails extends React.Component {
         const strRuntime = hours + 'H ' + formatMin + 'M'
         
         this.setState({ runtime: strRuntime });
-        console.log(strRuntime);
     }
 
     getGenres() {
@@ -127,16 +143,19 @@ class MovieDetails extends React.Component {
 
     render() {
         const movie = this.state.movie;
-        let cast = this.state.credits.cast;
-        
+        const cast = this.state.credits.cast;
+        const similarMovies = this.state.similarMovies;
         const movieGenres = this.state.movieGenres;
         const reviews = this.state.reviews;
+
         return (
             <div className="movie-details-wrapper">
+                <HomeBtn class="home-btn" />
                 <div className="details-header">
                     <img 
                         className="movie-backdrop" 
-                        src={`https://image.tmdb.org/t/p/w1000_and_h450_multi_faces/${movie.backdrop_path}`} />
+                        src={`https://image.tmdb.org/t/p/w1000_and_h450_multi_faces/${movie.backdrop_path}`}
+                        alt={`${movie.title} backdrop`} />
                     <h3 className="details-title">
                         {movie.title}
                     </h3>
@@ -145,18 +164,23 @@ class MovieDetails extends React.Component {
                     </h5>
                 </div>
                 <div className="details-content">
-                    <div className="details-director-rating">
+                    <div className="details-movie-info">
                         <p className="basic-details">
-                            Director: {this.state.director.name}
+                            Director: <span>{this.state.director.name}</span>
                         </p>
-                        <p className="details-rating">
-                            {movie.vote_average * 10}%
+                        <p className="basic-details">
+                            Rating: <span>{movie.vote_average * 10}%</span>
                         </p>
                     </div>
-                    <div className="details-genres">
-                        {movieGenres.map(genre => (
-                            <MovieGenre genre={genre.id} />
-                        ))}
+                    <div className="details-movie-info">
+                        <p className="basic-details">
+                            Runtime: <span>{this.state.runtime}</span>
+                        </p>
+                        <div className="details-genre">
+                            {movieGenres.map(genre => (
+                                <MovieGenre key={genre.id} genre={genre.id} />
+                            ))}
+                        </div>
                     </div>
                     <div className="details-overview">
                         <h3 className="details-subheads">Overview</h3>
@@ -168,69 +192,100 @@ class MovieDetails extends React.Component {
                         <h3 className="details-subheads">Cast</h3>
                         <div className="details-cast">
                             {cast ?
-                            
                                 <Swiper 
                                     loop={true} 
                                     slidesPerView={'auto'}>
                                     {cast
                                         .filter((person) => person.profile_path)
                                         .map(person => (
-                                        <SwiperSlide>
-                                            <img className="cast-img"src={`https://image.tmdb.org/t/p/w220_and_h330_bestv2/${person.profile_path}`} />
+                                        <SwiperSlide className="no-hover-slide" key={person.id}>
+                                            <img 
+                                                className="cast-img"
+                                                src={`https://image.tmdb.org/t/p/w220_and_h330_bestv2/${person.profile_path}`} 
+                                                alt={`${person.name} headshot`} />
                                             <p className="details-actor">
                                                 {person.name}
                                             </p>
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>
-
-                                :
-
-                                <h2></h2>
+                            :
+                                <></>
                             }
                         </div>
                     </div>
                     <div className="details-reviews-wrapper">
+                        <div className="reviews-heading">
+                            <h3 className="details-subheads">
+                                Reviews
+                            </h3> 
+                            <h3 className="num-reviews">
+                                ({reviews.length})
+                            </h3>
+                        </div>
                             {reviews.length > 0 ?
-                                    <>
-                                        <div className="reviews-heading">
-                                            <h3 className="details-subheads">
-                                                Reviews
-                                            </h3> 
-                                            <h3 className="num-reviews">
-                                                ({reviews.length})
-                                            </h3>
+                                <div className="detail-reviews">
+                                    {reviews.map(review => (
+                                        <div key={review.id} className="review-card">
+                                            <h4 className="review-author">
+                                                {review.author}
+                                            </h4>
+                                            <div className="review-text-wrapper"
+                                                style={{
+                                                    overflowY: (review.id === this.state.active_id ? this.state.overflow : 'hidden'),
+                                                    height: (review.id === this.state.active_id ? this.state.height : '144px'),
+                                                }} >
+                                                    <p className="review">
+                                                        {review.content}
+                                                    </p>
+                                            </div>
+                                            <button className="review-btn"
+                                                onClick={this.revealReview.bind(this, review.id)} >
+                                                <svg className="review-dot" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-point" width="12" height="12" viewBox="0 5 20 20" stroke-width="1.5" stroke="none" fill="#fff" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <circle cx="12" cy="12" r="4" />
+                                                </svg>
+                                                <svg className="review-dot" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-point" width="12" height="12" viewBox="0 5 20 20" stroke-width="1.5" stroke="none" fill="#fff" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <circle cx="12" cy="12" r="4" />
+                                                </svg>
+                                                <svg className="review-dot" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-point" width="12" height="12" viewBox="0 5 20 20" stroke-width="1.5" stroke="none" fill="#fff" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <circle cx="12" cy="12" r="4" />
+                                                </svg>
+                                            </button>
                                         </div>
-                                        <div className="detail-reviews">
-                                                {reviews.map(review => (
-                                                    <div className="review-card">
-                                                        <h4 className="review-author">
-                                                            {review.author}
-                                                        </h4>
-                                                        <div 
-                                                            className="review-text-wrapper"
-                                                            style={{
-                                                                overflowY: (review.id === this.state.active_id ? this.state.overflow : 'hidden'),
-                                                                height: (review.id === this.state.active_id ? this.state.height : '144px')
-                                                            }}
-                                                        >
-                                                            <p className="review">
-                                                                {review.content}
-                                                            </p>
-                                                        </div>
-                                                        <button 
-                                                            className="review-btn"
-                                                            onClick={this.revealReview.bind(this, review.id)}
-                                                        >...</button>
-                                                    </div>
-                                                ))}
-                                        </div>
-                                    </>
-                                :
-                                    <h2>
-                                        There are no reviews for this movie.
-                                    </h2>
+                                    ))}
+                                </div>
+                            :
+                                <p className="no-reviews-text">
+                                    There are no reviews for this movie.
+                                </p>
                             }
+                    </div>
+                    <div className="similar-section">
+                        <h3 className="details-subheads">
+                            Similar Movies
+                        </h3>
+                        {similarMovies.length > 0 ?
+                            <div className="similar-wrapper">
+                                <Swiper 
+                                    loop={true} 
+                                    slidesPerView={'auto'}>
+                                    {similarMovies
+                                        .filter((movie) => movie.poster_path)
+                                        .map((movie) => (
+                                        <SwiperSlide key={movie.id}>
+                                            <MovieCard movie={movie}/>
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
+                            </div>
+                        :
+                            <p className="no-reviews-text">
+                                There are no similar movies at this time.
+                            </p>
+                        }
                     </div>
                 </div>
             </div>

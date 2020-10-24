@@ -1,5 +1,6 @@
 import React from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import MovieCard from '../components/movieCard';
 
@@ -94,14 +95,15 @@ class Genre extends React.Component {
                             {movies
                                 .filter((movie) => movie.poster_path)
                                 .map((movie) => (
-                                <SwiperSlide 
-                                    key={movie.id}>
-                                    <MovieCard movie={movie}/>
+                                <SwiperSlide key={movie.id}>
+                                    <LazyLoadComponent>
+                                        <MovieCard movie={movie}/>
+                                    </LazyLoadComponent>
                                 </SwiperSlide>
                             ))}
                         </Swiper>
                     :
-                        <h2></h2>
+                        <></>
                 }
             </>
         );

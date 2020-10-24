@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import MovieGenre from './movieGenreBtn';
 
 export default function MovieCard({movie}) {
-
     return (
         <div className="card">
                 <div className="card--front">
@@ -24,12 +23,12 @@ export default function MovieCard({movie}) {
                     <div className="card--stats">
                         {/* Get substring of movie release for year */}
                         <p className="movie-date">{movie.release_date.substring(0,4)}</p>
-                        <div className="card--genres">
+                        {/* <div className="card--genres"> */}
                             {/* Map genres to icons and make them buttons */}
-                            {movie.genre_ids.map(genre => (
-                                <MovieGenre genre={genre} />
-                            ))}
-                        </div>
+                            {/* {movie.genre_ids.map(genre => (
+                                <MovieGenre key={genre} genre={genre} />
+                            ))} */}
+                        {/* </div> */}
                     </div>
                 </div>
                 <div className="card--back">
@@ -37,9 +36,13 @@ export default function MovieCard({movie}) {
                         <p className="movie-stats">{movie.vote_average * 10}<span>Avg Vote</span></p>
                         <p className="movie-stats">{movie.vote_count}<span>Votes</span></p>
                     </div>
-                    <button className="similar-btn">
+                    <Link 
+                        className="similar-btn"
+                        to={{
+                            pathname: `../similar/${movie.title}?${movie.id}`,
+                        }}>
                         See Similar Movies
-                    </button>
+                    </Link>
                 </div>
                 <div className="card--background">
                     <svg width="0" height="0" x="0px" y="0px">

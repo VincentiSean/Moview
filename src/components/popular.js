@@ -43,7 +43,7 @@ class Popular extends React.Component {
                             ))}
                         </Swiper>
                     :
-                        <h2></h2>
+                        <></>
                 }
             </>
         )

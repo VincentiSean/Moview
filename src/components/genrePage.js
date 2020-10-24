@@ -1,7 +1,9 @@
 import React from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import MovieCard from './movieCard';
+import HomeBtn from '../components/homeBtn';
 
 class GenrePage extends React.Component {
     constructor(props) {
@@ -10,6 +12,9 @@ class GenrePage extends React.Component {
             genreID: 0,
             genreName: '',
             movies: [],
+            pageNum: 20,
+            pages: 1,
+            prevPages: 1,
         }
     }
 
@@ -85,51 +90,86 @@ class GenrePage extends React.Component {
         this.movieFetch(genreID, genreName);
     }
 
+    // Make an API request to gather 140 movies and add to state
     movieFetch(genreID, genreName) {
-        const url = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genreID}`;
-        console.log(url);
-        try {
-            fetch(url)
-                .then((response) => response.json())
-                .then((data) => this.setState({
-                    genreID: genreID,
-                    genreName: genreName,
-                    movies: data.results
-                }))
-        } catch (err) {
-            console.error(err);
+        let movies = [];
+        for (let i = 1; i <= 7; i++) {
+            const url = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${i}&with_genres=${genreID}`;
+            try {
+                fetch(url)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        for (let j = 0; j < data.results.length; j++) {
+                            movies.push(data.results[j]);
+
+                            // Setting state here seems to prevent the array from reading as length=0
+                            this.setState({
+                                movies: movies
+                            });
+                        }
+                    })
+                    .then(this.setState({
+                        genreID: genreID,
+                        genreName: genreName,
+                    }));
+            } catch (err) {
+                console.error(err);
+            }
         }
     }
 
+    // Changes how many movies are returned from 
+    // slicing the movie array when the "More Movies"
+    // button is clicked
+    loadMoreMovies() {
+        this.setState({
+            pageNum: this.state.pageNum * this.state.pages,
+            pages: this.state.pages + 1
+        })
+    }
+
     render() {
-        const movies = this.state.movies;
-        console.log(this.state);
+        let genreName = this.state.genreName; 
+        let pageNum = this.state.pageNum;
+        let moviesShowing = [];
+        // Check to see if the movieFetch request happened 
+        // and wait until at least 20 movies were gathered
+        // Then display in Swiper (prevents swiper component from
+        // not moving on pageload)
+        if(this.state.movies.length >= 20) {
+            moviesShowing = this.state.movies.slice(0, pageNum);
+        }
+        
         return (
             <>
                 <div className="genre-page">
-                    <h1 className="category-title-large">{this.state.genreName}</h1>
-                    {movies.length > 0 ?   
-                        <>
-                            <Swiper 
-                                className="full-page-swiper" 
-                                direction={'vertical'} 
-                                // spaceBetween={10} 
-                                // loop={true}
-                                slidesPerView={'auto'}
-                            >
-                                {movies
+                    <div className="similar-genre-header">
+                        <h1 className="category-title-large">
+                            {genreName}
+                        </h1>
+                        <HomeBtn class="alt-home-btn" />
+                    </div>
+                    {moviesShowing.length > 0 ?   
+                            <div className="full-page-grid">
+                                {moviesShowing
                                     .filter((movie) => movie.poster_path)
                                     .map((movie) => (
-                                    <SwiperSlide 
-                                        key={movie.id}>
-                                        <MovieCard movie={movie}/>
-                                    </SwiperSlide>
+                                        <div className="swiper-slide">
+                                            <LazyLoadComponent>
+                                                <MovieCard movie={movie}/>
+                                            </LazyLoadComponent>
+                                        </div>
                                 ))}
-                            </Swiper>
-                            {/* <button className="load-btn">Load More</button> */}
-                        </>
+                                <div className="load-btn-wrapper">
+                                    <button 
+                                        className="load-btn" 
+                                        onClick={() => { this.loadMoreMovies() }}>
+                                            More Movies
+                                    </button>
+                                </div>
+                            </div>
                         :
-                            <h2></h2>
+                        <></>
                     }
                 </div>
             </>
