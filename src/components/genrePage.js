@@ -1,5 +1,4 @@
 import React from "react";
-import { Swiper, SwiperSlide } from 'swiper/react';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import MovieCard from './movieCard';

@@ -10,9 +10,8 @@ class HomeBtn extends React.Component {
         return(
             <Link
                 className={this.props.class}
-                // key={this.props.genre} 
                 to={{
-                    pathname: `/`,
+                    pathname: `/index.html`,
                 }}
             >
             <p>Home</p>

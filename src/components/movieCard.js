@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 
-import MovieGenre from './movieGenreBtn';
-
 export default function MovieCard({movie}) {
     return (
         <div className="card">
@@ -22,13 +20,11 @@ export default function MovieCard({movie}) {
                     <h3 className="card--title">{movie.title}</h3>
                     <div className="card--stats">
                         {/* Get substring of movie release for year */}
-                        <p className="movie-date">{movie.release_date.substring(0,4)}</p>
-                        {/* <div className="card--genres"> */}
-                            {/* Map genres to icons and make them buttons */}
-                            {/* {movie.genre_ids.map(genre => (
-                                <MovieGenre key={genre} genre={genre} />
-                            ))} */}
-                        {/* </div> */}
+                        {movie.release_date ?
+                            <p className="movie-date">{movie.release_date.substring(0,4)}</p>
+                        :
+                            <></>
+                        }
                     </div>
                 </div>
                 <div className="card--back">

@@ -78,6 +78,7 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
+  background-color: var(--dark-gray);
   border: 2px solid var(--orange);
   -webkit-text-fill-color: var(--white);
   transition: background-color 5000s ease-in-out 0s;
@@ -113,6 +114,7 @@ select:-webkit-autofill:focus {
   --dark-gray: #252422;
   --gray: #403d39;
   --light-gray: #ccc5b9;
+  --medium-gray: #bbb5b9;
   --background: #151414;
 
   --br: .5em;
@@ -275,6 +277,34 @@ select:-webkit-autofill:focus {
 
 .load-btn-wrapper {
   width: 100%;
+}
+
+.actor-details-wrapper {
+  background: var(--background);
+  min-height: 100vh;
+  height: 100%;
+  padding-bottom: 50px;
+}
+
+.actor-header {
+  height: 60vh;
+  position: relative;
+  width: 100%;
+  background-position: center;
+  background-repeat: none;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.actor-details {
+  margin: 35px auto;
+  width: 90%;
+}
+
+.more-movies-wrapper {
+  margin: 10px 0 0;
 }
 
 .card--front {
@@ -486,7 +516,8 @@ select:-webkit-autofill:focus {
   margin-top: 10px;
 }
 
-.details-cast-wrapper .details-subheads {
+.details-cast-wrapper .details-subheads,
+.more-movies-section .details-subheads {
   margin-left: 5%;
 }
 
@@ -530,6 +561,33 @@ select:-webkit-autofill:focus {
   text-align: center;
 }
 
+.actor-info {
+  color: var(--white);
+
+  & p {
+    margin: 0 0 15px;
+  }
+  & .actor-bold {
+    color: var(--medium-gray);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.85px;
+    margin: 0 0 -2px;
+    text-transform: uppercase;
+  }
+}
+
+.actor-info + .details-subheads {
+  margin: 50px 0 0;
+}
+
+.actor-biography {
+  color: var(--light-gray);
+  line-height: 1.8rem;
+  margin: 0 0 50px;
+}
+
+
 /************* 
 * 3. Images  *
 *************/
@@ -564,12 +622,22 @@ select:-webkit-autofill:focus {
   width: 130px;
 }
 
+.actor-headshot {
+  position: absolute;
+  top: 0;
+  object-fit: cover;
+  object-position: center;
+  height: 90%;
+  width: 100%;
+  // Add fade to bottom of backdrop
+  -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));
+          mask-image: linear-gradient(to bottom, rgb(48, 48, 48) 75%, rgba(0,0,0,0) 100%);
+}
 /*************
 *  4. Input  *
 *************/
-.search-input, 
-.search-input:-internal-autofill-selected {
-  background: var(--dark-gray);
+.search-input {
+  background-color: var(--dark-gray) !important;
   border: 2px solid var(--orange);
   border-radius: 15px;
   -webkit-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.75);
@@ -577,7 +645,7 @@ select:-webkit-autofill:focus {
           box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.75);
   caret-color: var(--white);
   color: var(--light-gray);
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.8px;
   margin: 1rem auto;
@@ -588,12 +656,16 @@ select:-webkit-autofill:focus {
 }
 
 .search-input:focus, 
-.search-input:hover {
+.search-input:hover
+.search-input:hover::-webkit-input-placeholder,
+.search-input:hover::placeholder {
   color: var(--white);
+  transition: 150ms ease-in;
 }
 
 .form:hover .searchSVG {
   stroke: var(--white);
+  transition: 150ms ease-in;
 }
 
 .card-link {
@@ -695,6 +767,21 @@ select:-webkit-autofill:focus {
     border-color: var(--orange);
     color: var(--white);
   }
+}
+
+.details-cast .swiper-slide a {
+  text-decoration: none;
+}
+
+.imdb-link {
+  color: var(--orange);
+  display: block;
+  font-size: 0.9rem;
+  font-style: italic;
+  font-weight: 400;
+  margin: 0 0 0 2.5%;
+  text-decoration: none;
+  width: 100px;
 }
 
 

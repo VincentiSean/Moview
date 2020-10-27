@@ -10,7 +10,8 @@ class Genre extends React.Component {
         this.state = {
             genre: this.props.genre,
             genreName: "",
-            movies: []
+            movies: [],
+            currDate: "",
         };
     }
 
@@ -28,6 +29,7 @@ class Genre extends React.Component {
         }
 
         this.getGenreName(genreNum);
+        this.getCurrDate();
     }
 
 
@@ -81,12 +83,19 @@ class Genre extends React.Component {
         this.setState({ genreName: title });
     }
 
-    
+    getCurrDate() {
+        let currDate = new Date();
+        let currDay = currDate.getDate();
+        let currMonth = currDate.getMonth()+1;
+        let currYear = currDate.getFullYear();
+        let currFullDate = currYear+"-"+currMonth+"-"+currDay;
+        this.setState({ currDate: currFullDate });
+    }
 
     render () {
-        const movies = this.state.movies;
+        let movies = this.state.movies;
+        let currDate = this.state.currDate;
         let genreCat = this.state.genreName;
-        
         return (
             <>
                 <h2 className="category-title">{genreCat}</h2>
@@ -94,6 +103,7 @@ class Genre extends React.Component {
                         <Swiper loop={true} slidesPerView={'auto'}>
                             {movies
                                 .filter((movie) => movie.poster_path)
+                                .filter((movie) => movie.release_date <= currDate)
                                 .map((movie) => (
                                 <SwiperSlide key={movie.id}>
                                     <LazyLoadComponent>

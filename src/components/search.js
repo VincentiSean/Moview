@@ -47,7 +47,6 @@ export default function Search() {
                                 <SwiperSlide 
                                     key={movie.id}>
                                     <MovieCard movie={movie}/>
-                                    {/* {movie.title} */}
                                 </SwiperSlide>
                             ))}
                         </Swiper>

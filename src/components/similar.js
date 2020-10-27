@@ -1,5 +1,4 @@
 import React from "react";
-import { Swiper, SwiperSlide } from 'swiper/react';
 
 import HomeBtn from "./homeBtn";
 import MovieCard from './movieCard';
@@ -14,7 +13,6 @@ class SimilarPage extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props.location);
         let movieName, movieId;
         if(this.props.location.search === "") {
             const movieInfo = this.props.location.pathname;
@@ -24,14 +22,13 @@ class SimilarPage extends React.Component {
             movieName = this.props.location.pathname.replace("/similar/", "");
             movieId = this.props.location.search.replace("?", "");
         }
-        console.log(movieId + ", " + movieName);
         this.movieFetch(movieId, movieName);
         window.scrollTo(0, 0);
     }
 
 
     movieFetch(movieID, movieName) {
-        const url = `https://api.themoviedb.org/3/movie/${movieID}/similar?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US&page=1`;
+        const url = `https://api.themoviedb.org/3/movie/${movieID}/recommendations?api_key=${process.env.REACT_APP_MOVIE_API_KEY}&language=en-US&page=1`;
         try {
             fetch(url)
                 .then((response) => response.json())
@@ -64,7 +61,7 @@ class SimilarPage extends React.Component {
                             {movies
                                 .filter((movie) => movie.poster_path)
                                 .map((movie) => (
-                                    <div className="swiper-slide">
+                                    <div className="swiper-slide" key={movie.id}>
                                         <MovieCard movie={movie}/>
                                     </div>
                                 ))}
