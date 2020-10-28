@@ -65,10 +65,15 @@ class CastDisplay extends React.Component {
                         <p className="actor-bold">Known For</p>
                         <p>{actor.known_for_department}</p>
                     </div>
-                    <div className="actor-info">
-                        <p className="actor-bold">Born</p>
-                        <p>{finishedBDay} ({age})</p>
-                    </div>
+                    {/* Only display birth if a birthday is known */}
+                    {age !== "" ? 
+                        <div className="actor-info">
+                            <p className="actor-bold">Born</p>
+                            <p>{finishedBDay} ({age})</p>
+                        </div>
+                    :
+                        <></>
+                    }
                     {/* If the actor died, display that information */}
                     {actor.deathday !== null ?
                         <div className="actor-info">
@@ -95,5 +100,3 @@ class CastDisplay extends React.Component {
     }
     
 }   export default CastDisplay
-
-// Link to imdb actor page

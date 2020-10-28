@@ -40,36 +40,37 @@ class SimilarSection extends React.Component {
             try {
                 fetch(url)
                   .then((response) => response.json())
-                  .then((data) => {
+                  .then((data) => { 
                         movies.push(data);
-                        // console.log(data);
                         // Setting state here seems to prevent the array from reading as length=0
                         this.setState({ movies: movies });
                   });
             } catch (err) {
                 console.error(err);
-            }   
-        } 
+            }  
+        }
     }
-
 
     render() {
         let moviesShowing = [];
-        if(this.state.movies.length >= 30) {
-            moviesShowing = this.state.movies.slice(0, 30);
+        // If all movie info has been collected, populate array
+        if (this.state.actorsMovies.length == this.state.movies.length) {
+            moviesShowing = this.state.movies;
         }
-        const movies = moviesShowing;
+        
         return (
             <div className="more-movies-section">
                 <h3 className="details-subheads">
                     Movies With This Actor
                 </h3>
-                {movies.length > 0 ?
+                {/* If array is populated initialize Swiper */}
+                {moviesShowing.length > 0 ?
                     <div className="more-movies-wrapper">
                         <Swiper 
+                            onSwiper={(swiper) => swiper.update()}
                             loop={true} 
-                            slidesPerView={'auto'}>
-                            {movies
+                            slidesPerView={'auto'} >
+                            {moviesShowing
                                 .filter((movie) => movie.poster_path)
                                 .map((movie) => (
                                     <SwiperSlide key={movie.id}>
@@ -81,7 +82,7 @@ class SimilarSection extends React.Component {
                         </Swiper>
                     </div>
                 :
-                    <></>
+                    <> </>
                 }
             </div>
         );

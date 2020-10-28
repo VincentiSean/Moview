@@ -5,6 +5,7 @@ import HomeBtn from '../components/homeBtn';
 import CastDisplay from '../components/castDisplay';
 import Reviews from '../components/reviews';
 import SimilarSection from '../components/similarSection';
+import Trailer from '../components/trailer';
 
 class MovieDetails extends React.Component {
     constructor(props) {
@@ -26,7 +27,6 @@ class MovieDetails extends React.Component {
         const movieId = this.props.location.pathname.replace("/", "");
         this.fetchMovie(movieId);
         this.fetchCrew(movieId);
-        this.fetchServices(movieId);
         
         window.scrollTo(0, 0);
     }
@@ -61,17 +61,7 @@ class MovieDetails extends React.Component {
         }
     }
 
-    fetchServices(movieId) {
-        const apikey = '9703dec';
-        const url = `http://www.omdbapi.com/?apikey=${apikey}&s=${movieId}`;
-        try {
-            fetch(url)
-              .then((response) => response.json())
-              .then((data) => this.setState({ services: data.results }));
-        } catch (err) {
-            console.error(err);
-        }   
-    }
+    
 
     getDirector() {
         let director = [];
@@ -124,7 +114,6 @@ class MovieDetails extends React.Component {
         const movie = this.state.movie;
         const credits = this.state.credits;
         const movieGenres = this.state.movieGenres;
-        // console.log(this.state.services);
 
         return (
             <div className="movie-details-wrapper">
@@ -142,24 +131,35 @@ class MovieDetails extends React.Component {
                     </h5>
                 </div>
                 <div className="details-content">
-                    <div className="details-movie-info">
-                        <p className="basic-details">
-                            Director: <span>{this.state.director.name}</span>
-                        </p>
-                        <p className="basic-details">
-                            Rating: <span>{movie.vote_average * 10}%</span>
-                        </p>
-                    </div>
-                    <div className="details-movie-info">
-                        <p className="basic-details">
-                            Runtime: <span>{this.state.runtime}</span>
-                        </p>
-                        <div className="details-genre">
-                            {movieGenres.map(genre => (
-                                <MovieGenre key={genre.id} genre={genre.id} />
-                            ))}
+                    <div className="trailer-info-wrapper">
+                        <div className="info-wrapper">
+                            <div className="details-movie-info">
+                                <p className="basic-details">
+                                    Director: <span>{this.state.director.name}</span>
+                                </p>
+                                <p className="basic-details">
+                                    Rating: <span>{movie.vote_average * 10}%</span>
+                                </p>
+                            </div>
+                            <div className="details-movie-info">
+                                <p className="basic-details">
+                                    Runtime: <span>{this.state.runtime}</span>
+                                </p>
+                                <div className="details-genre">
+                                    {movieGenres.map(genre => (
+                                        <MovieGenre key={genre.id} genre={genre.id} />
+                                    ))}
+                                </div>
+                            </div>
                         </div>
+                        {/* Once we have a movie id => get trailer */}
+                        {movie.id ? 
+                            <Trailer movieID={movie.id} />
+                        :
+                            <></>
+                        }
                     </div>
+                    
                     <div className="details-overview">
                         <h3 className="details-subheads">Overview</h3>
                         <p className="overview-text">
