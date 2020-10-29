@@ -25,7 +25,7 @@ export default function Search() {
 
     return (
         <>
-            <form className="form" onSubmit={searchMovies}>
+            <form className="form" onSubmit={searchMovies} autoComplete="off">
                 <svg xmlns="http://www.w3.org/2000/svg" className="searchSVG icon icon-tabler icon-tabler-search" width="44" height="44" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#2c3e50" fill="none" strokeLinecap="round" strokeLinejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                     <circle cx="10" cy="10" r="7" />
@@ -43,6 +43,7 @@ export default function Search() {
                         <Swiper loop={true} slidesPerView={'auto'}>
                             {movies
                                 .filter((movie) => movie.poster_path)
+                                .sort((movie) => movie.vote_average)
                                 .map((movie) => (
                                 <SwiperSlide 
                                     key={movie.id}>

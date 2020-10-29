@@ -23,7 +23,10 @@ class SimilarSection extends React.Component {
         try {
             fetch(url)
               .then((response) => response.json())
-              .then((data) => this.setState({ actorsMovies: data.cast }, this.fetchMovieInfo));
+              .then((data) => {
+                  let sortedMovies = data.cast.sort((movie) => movie.vote_average);
+                  this.setState({ actorsMovies: data.cast }, this.fetchMovieInfo)
+              });
         } catch (err) {
             console.error(err);
         }   

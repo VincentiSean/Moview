@@ -5,6 +5,9 @@ class Trailer extends React.Component {
         super(props);
         this.state = {
             videosInfo: [],
+            trailerURL: "",
+            noTrailer: false,
+            chosenVideo: [],
         }
     }
 
@@ -36,11 +39,10 @@ class Trailer extends React.Component {
             }
         });
 
-        console.log(trailer);
         if (trailer) {
             // Found a trailer!
             console.log("here");
-            this.setState({ trailerURL: `https://www.youtube.com/embed/${trailer.key}` });
+            this.setState({ trailerURL: `https://www.youtube.com/embed/${trailer.key}`, chosenVideo: trailer });
         } else {
             // No trailer
             this.setState({ noTrailer: true });
@@ -48,13 +50,11 @@ class Trailer extends React.Component {
     }
 
     render() {
-        console.log(this.state.trailerURL);
-
         // Add css for mobile to desktop display!! ~~~~~~~~~~~~~~~~~~~~`
         return (
-            <div>
+            <div className="video-wrapper">
                 {!this.state.noTrailer ?
-                    <iframe width="560" height="315" src={this.state.trailerURL} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                    <iframe className="trailer-video" title={this.state.chosenVideo.title} src={this.state.trailerURL} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                 :
                     <></>
                 }
