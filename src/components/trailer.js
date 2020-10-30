@@ -41,7 +41,6 @@ class Trailer extends React.Component {
 
         if (trailer) {
             // Found a trailer!
-            console.log("here");
             this.setState({ trailerURL: `https://www.youtube.com/embed/${trailer.key}`, chosenVideo: trailer });
         } else {
             // No trailer

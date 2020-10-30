@@ -43,6 +43,8 @@ class SimilarSection extends React.Component {
                             slidesPerView={'auto'}>
                             {similarMovies
                                 .filter((movie) => movie.poster_path)
+                                .filter((movie) => movie.release_date !== "")
+                                .sort((movie) => movie.popularity)
                                 .map((movie) => (
                                     <SwiperSlide key={movie.id}>
                                         <MovieCard movie={movie}/>

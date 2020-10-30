@@ -11,7 +11,6 @@ class Popular extends React.Component {
         super();
         this.state = {
             movies: [],
-            currDate: "",
         };
     }
 
@@ -25,22 +24,10 @@ class Popular extends React.Component {
           } catch (err) {
             console.error(err);
           }
-
-          this.getCurrDate();
-    }
-
-    getCurrDate() {
-        let currDate = new Date();
-        let currDay = currDate.getDate();
-        let currMonth = currDate.getMonth()+1;
-        let currYear = currDate.getFullYear();
-        let currFullDate = currYear+"-"+currMonth+"-"+currDay;
-        this.setState({ currDate: currFullDate });
     }
 
     render () {
         let movies = this.state.movies;
-        let currDate = this.state.currDate;
 
         return (
             <>
@@ -49,7 +36,7 @@ class Popular extends React.Component {
                         <Swiper loop={true} slidesPerView={'auto'}>
                             {movies
                                 .filter((movie) => movie.poster_path)
-                                .filter((movie) => movie.release_date <= currDate)
+                                .filter((movie) => movie.release_date !== "")
                                 .map((movie) => (
                                 <SwiperSlide 
                                     key={movie.id}>

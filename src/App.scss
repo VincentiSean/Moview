@@ -153,7 +153,7 @@ select:-webkit-autofill:focus {
 }
 
 .swiper-slide-active {
-  filter: brightness(100%);
+  filter: brightness(108%);
   transform: scale(1);
   transition: 250ms ease-in;
 }
@@ -535,7 +535,7 @@ select:-webkit-autofill:focus {
   font-size: 1.125rem;
   font-weight: 400;
   margin-top: 10px;
-  width: clamp(45ch, 100%, 65ch);
+  width: clamp(300px, 100%, 65ch);
 }
 
 .details-cast-wrapper .details-subheads,
@@ -823,6 +823,12 @@ select:-webkit-autofill:focus {
   width: 100%;
 }
 
+
+
+/*************
+*  6. Extras *
+*************/
+
 @keyframes movieName {
   0% {
     text-align: left;
@@ -845,6 +851,7 @@ select:-webkit-autofill:focus {
     opacity: 1;
   }
 }
+
 
 @media only screen and (min-width: 510px) {
   .category-title-large {

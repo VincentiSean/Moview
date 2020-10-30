@@ -24,8 +24,9 @@ class SimilarSection extends React.Component {
             fetch(url)
               .then((response) => response.json())
               .then((data) => {
-                  let sortedMovies = data.cast.sort((movie) => movie.vote_average);
-                  this.setState({ actorsMovies: data.cast }, this.fetchMovieInfo)
+                // sort the movies return based on popularity variable
+                let sortedMovies = data.cast.sort(function(a, b){return b.popularity - a.popularity});
+                  this.setState({ actorsMovies: sortedMovies }, this.fetchMovieInfo)
               });
         } catch (err) {
             console.error(err);
@@ -57,7 +58,7 @@ class SimilarSection extends React.Component {
     render() {
         let moviesShowing = [];
         // If all movie info has been collected, populate array
-        if (this.state.actorsMovies.length == this.state.movies.length) {
+        if (this.state.actorsMovies.length === this.state.movies.length) {
             moviesShowing = this.state.movies;
         }
         
@@ -70,11 +71,11 @@ class SimilarSection extends React.Component {
                 {moviesShowing.length > 0 ?
                     <div className="more-movies-wrapper">
                         <Swiper 
-                            onSwiper={(swiper) => swiper.update()}
                             loop={true} 
                             slidesPerView={'auto'} >
                             {moviesShowing
                                 .filter((movie) => movie.poster_path)
+                                .filter((movie) => movie.release_date !== "")
                                 .map((movie) => (
                                     <SwiperSlide key={movie.id}>
                                         <LazyLoadComponent>

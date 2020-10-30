@@ -68,15 +68,15 @@ class Reviews extends React.Component {
                                             </div>
                                             <button className="review-btn"
                                                 onClick={this.revealReview.bind(this, review.id)} >
-                                                <svg className="review-dot" xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-point" width="12" height="12" viewBox="0 5 20 20" strokeWidth="1.5" stroke="none" fill="#fff" strokeLinecap="round" strokeLinejoin="round">
+                                                <svg className="review-dot icon icon-tabler icon-tabler-point" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 5 20 20" strokeWidth="1.5" stroke="none" fill="#fff" strokeLinecap="round" strokeLinejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                                     <circle cx="12" cy="12" r="4" />
                                                 </svg>
-                                                <svg className="review-dot" xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-point" width="12" height="12" viewBox="0 5 20 20" strokeWidth="1.5" stroke="none" fill="#fff" strokeLinecap="round" strokeLinejoin="round">
+                                                <svg className="review-dot icon icon-tabler icon-tabler-point" xmlns="http://www.w3.org/2000/svg"  width="12" height="12" viewBox="0 5 20 20" strokeWidth="1.5" stroke="none" fill="#fff" strokeLinecap="round" strokeLinejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                                     <circle cx="12" cy="12" r="4" />
                                                 </svg>
-                                                <svg className="review-dot" xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-point" width="12" height="12" viewBox="0 5 20 20" strokeWidth="1.5" stroke="none" fill="#fff" strokeLinecap="round" strokeLinejoin="round">
+                                                <svg className="review-dot icon icon-tabler icon-tabler-point" xmlns="http://www.w3.org/2000/svg"  width="12" height="12" viewBox="0 5 20 20" strokeWidth="1.5" stroke="none" fill="#fff" strokeLinecap="round" strokeLinejoin="round">
                                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                                     <circle cx="12" cy="12" r="4" />
                                                 </svg>

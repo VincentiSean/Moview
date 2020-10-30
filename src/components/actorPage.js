@@ -54,17 +54,26 @@ class CastDisplay extends React.Component {
             <div className="actor-details-wrapper">
                 <HomeBtn class="alt-home-btn" />
                 <div className="actor-header">
-                    <img className="actor-headshot" src={`https://image.tmdb.org/t/p/w300_and_h450_bestv2${actor.profile_path}`} alt={actor.name} />
+                    {actor.profile_path ? 
+                        <img 
+                            className="actor-headshot" 
+                            src={`https://image.tmdb.org/t/p/w300_and_h450_bestv2${actor.profile_path}`} 
+                            alt={actor.name} />
+                    :
+                        <></>
+                    }
+                    
                     <h3 className="details-title">
                         {actor.name}
                     </h3>
-                    <a className="imdb-link" href={`https://www.imdb.com/name/${actor.imdb_id}/`} target="_blank">IMDB Page</a>
+                    <a className="imdb-link" href={`https://www.imdb.com/name/${actor.imdb_id}/`} target="_blank" rel="noopener noreferrer">IMDB Page</a>
                 </div>
                 <div className="actor-details">
                     <div className="actor-info">
                         <p className="actor-bold">Known For</p>
                         <p>{actor.known_for_department}</p>
                     </div>
+                    {/* Put everything in ternary checks because not every actor has the same information */}
                     {/* Only display birth if a birthday is known */}
                     {age !== "" ? 
                         <div className="actor-info">
@@ -83,12 +92,24 @@ class CastDisplay extends React.Component {
                     :
                         <></>
                     }
-                    <div className="actor-info">
-                        <p className="actor-bold">Birthplace</p>
-                        <p>{actor.place_of_birth}</p>
-                    </div>
-                    <h3 className="details-subheads">Biography</h3>
-                    <p className="actor-biography">{actor.biography}</p>
+                    {/* Check for place of birth */}
+                    {actor.place_of_birth ? 
+                        <div className="actor-info">
+                            <p className="actor-bold">Birthplace</p>
+                            <p>{actor.place_of_birth}</p>
+                        </div>
+                    :
+                        <></>
+                    }
+                    {/* Check for a biography */}
+                    {actor.biography ? 
+                        <>
+                            <h3 className="details-subheads">Biography</h3>
+                            <p className="actor-biography">{actor.biography}</p>
+                        </>
+                    :
+                        <></>
+                    }
                 </div>
                 {actor.id ?
                     <ActorMovies id={actor.id} />

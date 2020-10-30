@@ -152,8 +152,10 @@ class GenrePage extends React.Component {
                             <div className="full-page-grid">
                                 {moviesShowing
                                     .filter((movie) => movie.poster_path)
+                                    .filter((movie) => movie.release_date !== "")
+                                    .sort((movie) => movie.popularity)
                                     .map((movie) => (
-                                        <div className="swiper-slide">
+                                        <div className="swiper-slide" key={movie.id}>
                                             <LazyLoadComponent>
                                                 <MovieCard movie={movie}/>
                                             </LazyLoadComponent>

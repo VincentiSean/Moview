@@ -41,11 +41,10 @@ class SimilarPage extends React.Component {
         }
     }
 
-    
-
     render() {
         const movieTitle = this.state.movieTitle;
         const movies = this.state.movies;
+
         return (
             <>
                 <div className="similar-page">
@@ -60,6 +59,8 @@ class SimilarPage extends React.Component {
                         <div className="full-page-grid">
                             {movies
                                 .filter((movie) => movie.poster_path)
+                                .filter((movie) => movie.release_date !== "")
+                                .sort((movie) => movie.popularity)
                                 .map((movie) => (
                                     <div className="swiper-slide" key={movie.id}>
                                         <MovieCard movie={movie}/>

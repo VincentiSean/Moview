@@ -61,7 +61,6 @@ class MovieDetails extends React.Component {
         }
     }
 
-    
 
     getDirector() {
         let director = [];
@@ -119,10 +118,15 @@ class MovieDetails extends React.Component {
             <div className="movie-details-wrapper">
                 <HomeBtn class="home-btn" />
                 <div className="details-header">
-                    <img 
-                        className="movie-backdrop" 
-                        src={`https://image.tmdb.org/t/p/w1000_and_h450_multi_faces/${movie.backdrop_path}`}
-                        alt={`${movie.title} backdrop`} />
+                    {movie.backdrop_path ? 
+                        <img 
+                            className="movie-backdrop" 
+                            src={`https://image.tmdb.org/t/p/w1000_and_h450_multi_faces/${movie.backdrop_path}`}
+                            alt={`${movie.title} backdrop`} />
+                    :
+                        <></>
+                    }
+                    
                     <h3 className="details-title">
                         {movie.title}
                     </h3>

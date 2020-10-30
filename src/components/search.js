@@ -43,7 +43,8 @@ export default function Search() {
                         <Swiper loop={true} slidesPerView={'auto'}>
                             {movies
                                 .filter((movie) => movie.poster_path)
-                                .sort((movie) => movie.vote_average)
+                                .filter((movie) => movie.release_date !== "")
+                                .sort((movie) => movie.popularity)
                                 .map((movie) => (
                                 <SwiperSlide 
                                     key={movie.id}>
