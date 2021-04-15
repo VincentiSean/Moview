@@ -338,7 +338,13 @@ select:-webkit-autofill:focus {
     margin: 0.75em 0 0.15em;
   }
 
-  .movie-date {
+  .card--stats {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .movie-date,
+  .movie-score {
     color: var(--light-gray);
     font-size: 0.8rem;
     font-weight: 600;
@@ -608,7 +614,7 @@ select:-webkit-autofill:focus {
   color: var(--light-gray);
   line-height: 1.8rem;
   margin: 0 0 50px;
-  width: clamp(45ch, 100%, 65ch);
+  width: clamp(30ch, 100%, 65ch);
 }
 
 
@@ -868,6 +874,10 @@ select:-webkit-autofill:focus {
     max-height: 450px;
     // width: 350px;
     max-width: 300px;
+  }
+
+  .actor-biography {
+    width: clamp(45ch, 100%, 65ch);
   }
 }
 

@@ -21,9 +21,19 @@ export default function MovieCard({movie}) {
                     <div className="card--stats">
                         {/* Get substring of movie release for year */}
                         {movie.release_date ?
-                            <p className="movie-date">{movie.release_date.substring(0,4)}</p>
+                            <p className="movie-date">
+                                {movie.release_date.substring(0,4)}
+                            </p>
                         :
                             <></>
+                        }
+
+                        {/* Get the rating for the movie */}
+                        {movie.vote_average
+                            ?   <p className="movie-score">
+                                    {movie.vote_average *  10}%
+                                </p>
+                            :   <></>
                         }
                     </div>
                 </div>
